@@ -56,7 +56,7 @@ enum PaymentMethod {
     STRIPE
 }
 
-// Required for creating an Order: total, userId, storeId, addressId, isPaid, paymentMethod, isCouponUsed, coupon (JSON), orderItems (nested)
+// Required for creating an Order: total, userId, storeId, addressId, isPaid, paymentMethod, orderItems (nested)
 model Order {
     id            String        @id @default(cuid())
     total         Float
@@ -68,8 +68,6 @@ model Order {
     paymentMethod PaymentMethod
     createdAt     DateTime      @default(now())
     updatedAt     DateTime      @updatedAt
-    isCouponUsed  Boolean       @default(false)
-    coupon        Json          @default("{}")
     orderItems    OrderItem[]
 
     // Relations
@@ -127,18 +125,6 @@ model Address {
     // Relations
     Order Order[]
     user  User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-// Required for creating a Coupon: code, description, discount, forNewUser, isPublic, expiresAt
-model Coupon {
-    code        String   @id
-    description String
-    discount    Float
-    forNewUser  Boolean
-    forMember   Boolean  @default(false)
-    isPublic    Boolean
-    expiresAt   DateTime
-    createdAt   DateTime @default(now())
 }
 
 // Required for creating a Store: userId, name, username, email, contact, logo, description, address (optional: , status, isActive)

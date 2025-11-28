@@ -1,7 +1,7 @@
 'use client'
 
 import { addToCart } from "@/lib/features/cart/cartSlice";
-import { StarIcon, TagIcon, EarthIcon, CreditCardIcon, UserIcon } from "lucide-react";
+import { EarthIcon, CreditCardIcon, UserIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Image from "next/image";
@@ -24,8 +24,6 @@ const ProductDetails = ({ product }) => {
         dispatch(addToCart({ productId }))
     }
 
-    const averageRating = product.rating.reduce((acc, item) => acc + item.rating, 0) / product.rating.length;
-    
     return (
         <div className="flex max-lg:flex-col gap-12">
             <div className="flex max-sm:flex-col-reverse gap-3">
@@ -42,19 +40,8 @@ const ProductDetails = ({ product }) => {
             </div>
             <div className="flex-1">
                 <h1 className="text-3xl font-semibold text-slate-800">{product.name}</h1>
-                <div className='flex items-center mt-2'>
-                    {Array(5).fill('').map((_, index) => (
-                        <StarIcon key={index} size={14} className='text-transparent mt-0.5' fill={averageRating >= index + 1 ? "#00C950" : "#D1D5DB"} />
-                    ))}
-                    <p className="text-sm ml-3 text-slate-500">{product.rating.length} Reviews</p>
-                </div>
-                <div className="flex items-start my-6 gap-3 text-2xl font-semibold text-slate-800">
-                    <p> {currency}{product.price} </p>
-                    <p className="text-xl text-slate-500 line-through">{currency}{product.mrp}</p>
-                </div>
-                <div className="flex items-center gap-2 text-slate-500">
-                    <TagIcon size={14} />
-                    <p>Save {((product.mrp - product.price) / product.mrp * 100).toFixed(0)}% right now</p>
+                <div className="my-6">
+                    <p className="text-2xl font-semibold text-slate-800">{currency}{product.price}</p>
                 </div>
                 <div className="flex items-end gap-5 mt-10">
                     {
